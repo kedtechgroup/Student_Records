@@ -12,5 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
 });
+
+Route::get('/home', function () {
+    return view('layouts.master');
+});
+
+Route::resource('students', 'StudentController');
+
+
+Auth::routes();
