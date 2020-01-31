@@ -18,9 +18,9 @@ class CreateStudentsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('gender');
-            $table->string('dob');
+            $table->date('dob');
             $table->string('status');
-            $table->unsignedInteger('stream_id');
+//            $table->unsignedInteger('stream_id');
             $table->unsignedInteger('class_id');
             $table->timestamps();
 
@@ -28,9 +28,9 @@ class CreateStudentsTable extends Migration
                 ->references('id')
                 ->on('classes');
 
-            $table->foreign('stream_id')
-                ->references('id')
-                ->on('streams');
+//            $table->foreign('stream_id')
+//                ->references('id')
+//                ->on('streams');
         });
     }
 
