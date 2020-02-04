@@ -20,6 +20,8 @@ Route::get('/home', function () {
 });
 
 Route::resource('students', 'StudentController');
+Route::resource('streams', 'StreamController');
+Route::resource('classes', 'ClassesController');
 
 
 Auth::routes();

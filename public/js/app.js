@@ -2812,6 +2812,95 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2823,18 +2912,63 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         name: 'name'
       }, {
-        name: 'updated_at',
-        title: 'Updated'
+        name: 'gender'
+      }, {
+        name: 'email'
+      }, {
+        name: 'dob',
+        title: 'Date of Birth'
+      }, {
+        name: 'status'
       }, {
         name: '__slot:actions',
         title: '',
         titleClass: 'text-center',
         dataClass: 'text-center'
       }],
-      moreParams: {}
+      moreParams: {},
+      form: new Form({
+        name: '',
+        dob: '',
+        email: '',
+        gender: '',
+        class_id: ''
+      }),
+      showCreateForm: false,
+      classes: []
     };
   },
-  method: {}
+  mounted: function mounted() {
+    this.getClasses();
+  },
+  methods: {
+    hideForm: function hideForm() {
+      this.showCreateForm = false;
+      this.form.reset();
+    },
+    viewCreateForm: function viewCreateForm() {
+      this.showCreateForm = true;
+    },
+    getClasses: function getClasses() {
+      var _this = this;
+
+      window.httpClient.get('/classes').then(function (response) {
+        return _this.classes = response.data.data;
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    onDateChange: function onDateChange(date, dateStr) {
+      this.form.dob = dateStr;
+    },
+    createStudent: function createStudent() {
+      this.form.post('/students').then(function (response) {
+        return toast.success(response.message);
+      })["catch"](function (error) {
+        return toast.error(error.response.data.message);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -9589,151 +9723,459 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-lg-12 col-md-12" }, [
-      _c(
-        "div",
-        { staticClass: "card mb-0" },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-header header-elements-sm-inline bg-transparent py-2"
-            },
-            [
-              _c("h6", { staticClass: "card-title" }, [_vm._v("Students")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "header-elements" }, [
-                _c("div", { staticClass: "list-icons ml-3" }, [
-                  _c("div", { staticClass: "list-icons-item dropdown" }, [
-                    _c("a", {
-                      staticClass: "list-icons-item dropdown-toggle",
-                      attrs: {
-                        href: "#",
-                        "data-toggle": "dropdown",
-                        "aria-expanded": "false"
+  return _c("div", [
+    _vm.showCreateForm
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-6 offset-md-2" }, [
+            _c(
+              "form",
+              {
+                staticClass: "card",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.createStudent($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "name" } }, [_vm._v("Name")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text", id: "name" },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "name", $event.target.value)
+                        }
                       }
                     }),
                     _vm._v(" "),
+                    _vm.form.errors.has("name")
+                      ? _c("span", {
+                          staticClass: "form-text text-danger",
+                          domProps: {
+                            textContent: _vm._s(_vm.form.errors.first("name"))
+                          }
+                        })
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.email,
+                          expression: "form.email"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        placeholder: "example@example.com",
+                        id: "email"
+                      },
+                      domProps: { value: _vm.form.email },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "email", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm.form.errors.has("email")
+                      ? _c("span", {
+                          staticClass: "form-text text-danger",
+                          domProps: {
+                            textContent: _vm._s(_vm.form.errors.first("email"))
+                          }
+                        })
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "gender" } }, [
+                      _vm._v("Gender")
+                    ]),
+                    _vm._v(" "),
                     _c(
-                      "div",
+                      "select",
                       {
-                        staticClass: "dropdown-menu",
-                        attrs: { "x-placement": "bottom-start" }
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.gender,
+                            expression: "form.gender"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "gender", id: "gender" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "gender",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
                       },
                       [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                return _vm.showForm($event)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "icon-plus3" }),
-                            _vm._v(" Add Student ")
-                          ]
-                        )
+                        _c("option", { attrs: { value: "MALE" } }, [
+                          _vm._v("MALE")
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "MALE" } }, [
+                          _vm._v("FEMALE")
+                        ])
                       ]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.form.errors.has("gender")
+                      ? _c("span", {
+                          staticClass: "form-text text-danger",
+                          domProps: {
+                            textContent: _vm._s(_vm.form.errors.first("gender"))
+                          }
+                        })
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
+                      _c("label", { attrs: { for: "gender" } }, [
+                        _vm._v("Date Of Birth")
+                      ]),
+                      _vm._v(" "),
+                      _c("date-picker", {
+                        attrs: { value: _vm.form.dob },
+                        on: { "on-change": _vm.onDateChange }
+                      }),
+                      _vm._v(" "),
+                      _vm.form.errors.has("dob")
+                        ? _c("span", {
+                            staticClass: "form-text text-danger",
+                            domProps: {
+                              textContent: _vm._s(_vm.form.errors.first("dob"))
+                            }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "gender" } }, [
+                      _vm._v("Class")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.class_id,
+                            expression: "form.class_id"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { name: "gender", id: "gender" },
+                        on: {
+                          change: function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.form,
+                              "class_id",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          }
+                        }
+                      },
+                      _vm._l(_vm.classes, function(c) {
+                        return _c(
+                          "option",
+                          {
+                            attrs: { value: "MALE" },
+                            domProps: { value: c.id }
+                          },
+                          [_vm._v(" " + _vm._s(c.name))]
+                        )
+                      }),
+                      0
+                    ),
+                    _vm._v(" "),
+                    _vm.form.errors.has("gender")
+                      ? _c("span", {
+                          staticClass: "form-text text-danger",
+                          domProps: {
+                            textContent: _vm._s(_vm.form.errors.first("gender"))
+                          }
+                        })
+                      : _vm._e()
                   ])
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("my-vuetable", {
-            ref: "table",
-            attrs: {
-              "api-url": "/students",
-              fields: _vm.fields,
-              "append-params": _vm.moreParams
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "actions",
-                fn: function(props) {
-                  return [
-                    _c("div", { staticClass: "list-icons custom-actions" }, [
-                      _c("div", { staticClass: "list-icons-item dropdown" }, [
-                        _c(
-                          "a",
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-footer d-flex justify-content-between align-items-center "
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-outline-danger",
+                        attrs: { type: "submit" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.hideForm($event)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "icon-cross2" }),
+                        _vm._v(" Cancel\n                    ")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    this.form.processing
+                      ? _c(
+                          "button",
                           {
                             staticClass:
-                              "list-icons-item dropdown-toggle caret-0",
-                            attrs: { href: "#", "data-toggle": "dropdown" }
+                              "btn btn-outline bg-indigo-400 text-indigo-400 border-indigo-400",
+                            attrs: { type: "submit" }
                           },
-                          [_c("i", { staticClass: "icon-menu" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          { staticClass: "dropdown-menu dropdown-menu-right" },
                           [
-                            _c(
-                              "a",
-                              {
-                                staticClass: "dropdown-item",
-                                attrs: { href: "#" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.edit(
-                                      props.rowData,
-                                      props.rowIndex
-                                    )
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", { staticClass: "icon-pencil6" }),
-                                _vm._v(
-                                  " Update\n                                "
-                                )
-                              ]
+                            _vm._v(
+                              "\n                        Processing...\n                        "
                             ),
-                            _vm._v(" "),
+                            _c("i", {
+                              staticClass: "icon-spinner3 spinner ml-2"
+                            })
+                          ]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-outline bg-indigo-400 text-indigo-400 border-indigo-400",
+                            attrs: { type: "submit" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        Submit\n                        "
+                            ),
+                            _c("i", { staticClass: "icon-paperplane ml-2" })
+                          ]
+                        )
+                  ]
+                )
+              ]
+            )
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    !_vm.showCreateForm
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-12 col-md-12" }, [
+            _c(
+              "div",
+              { staticClass: "card mb-0" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "card-header header-elements-sm-inline bg-transparent py-2"
+                  },
+                  [
+                    _c("h6", { staticClass: "card-title" }, [
+                      _vm._v("Students")
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "header-elements" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.viewCreateForm($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "icon-user-plus" }),
+                          _vm._v(" Student\n                        ")
+                        ]
+                      )
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("my-vuetable", {
+                  ref: "table",
+                  attrs: {
+                    "api-url": "/students",
+                    fields: _vm.fields,
+                    "append-params": _vm.moreParams
+                  },
+                  scopedSlots: _vm._u(
+                    [
+                      {
+                        key: "actions",
+                        fn: function(props) {
+                          return [
                             _c(
-                              "a",
-                              {
-                                staticClass: "dropdown-item",
-                                attrs: { href: "#" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.showBranchForm(
-                                      props.rowData,
-                                      props.rowIndex
-                                    )
-                                  }
-                                }
-                              },
+                              "div",
+                              { staticClass: "list-icons custom-actions" },
                               [
-                                _c("i", { staticClass: "icon-plus3" }),
-                                _vm._v(
-                                  " Add Branch\n                                "
+                                _c(
+                                  "div",
+                                  { staticClass: "list-icons-item dropdown" },
+                                  [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "list-icons-item dropdown-toggle caret-0",
+                                        attrs: {
+                                          href: "#",
+                                          "data-toggle": "dropdown"
+                                        }
+                                      },
+                                      [_c("i", { staticClass: "icon-menu" })]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "dropdown-menu dropdown-menu-right"
+                                      },
+                                      [
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            attrs: { href: "#" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.edit(
+                                                  props.rowData,
+                                                  props.rowIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass: "icon-pencil6"
+                                            }),
+                                            _vm._v(
+                                              " Update\n                                    "
+                                            )
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "a",
+                                          {
+                                            staticClass: "dropdown-item",
+                                            attrs: { href: "#" },
+                                            on: {
+                                              click: function($event) {
+                                                $event.preventDefault()
+                                                return _vm.deleteStudent(
+                                                  props.rowData,
+                                                  props.rowIndex
+                                                )
+                                              }
+                                            }
+                                          },
+                                          [
+                                            _c("i", {
+                                              staticClass:
+                                                "icon-trash text-danger"
+                                            }),
+                                            _vm._v(
+                                              " Delete\n                                    "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
                                 )
                               ]
                             )
                           ]
-                        )
-                      ])
-                    ])
-                  ]
-                }
-              }
-            ])
-          })
-        ],
-        1
-      )
-    ])
+                        }
+                      }
+                    ],
+                    null,
+                    false,
+                    4213457959
+                  )
+                })
+              ],
+              1
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StudentCollection;
 use App\Student;
 use Illuminate\Http\Request;
 
@@ -15,10 +16,11 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        $students = Student::query()->latest('created_at')->get();
 
         if ($request->expectsJson()) {
-            return response()->json($students);
+            $students = Student::query()->latest('created_at')->get();
+
+            return response()->json(new StudentCollection($students));
         }
 
         return view('student');
@@ -38,18 +40,28 @@ class StudentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name'     => 'required|string|max:255',
+            'email'    => 'nullable|email',
+            'dob'      => 'required|date_format:Y-m-d',
+            'class_id' => 'required|exists:classes,id'
+        ]);
+
         $student = Student::create([
-            'name'      => $request->input('name'),
-            'email'     => $request->input('email'),
-            'gender'    => $request->input('gender'),
-            'dob'       => $request->input('dob'),
-            'status'    => $request->input('status'),
-            'stream_id' => $request->input('stream_id'),
-            'class_id'  => $request->input('class_id'),
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'gender'   => $request->input('gender'),
+            'dob'      => $request->input('dob'),
+            'class_id' => $request->input('class_id'),
+        ]);
+
+        return response()->json([
+            'message' => 'student was successfully created'
         ]);
     }
 

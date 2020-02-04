@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes;
+use App\Http\Resources\ClassesCollection;
 use Illuminate\Http\Request;
 
 class ClassesController extends Controller
@@ -12,10 +13,13 @@ class ClassesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $class = Classes::query()->latest('created_at')->get();
+        if ($request->expectsJson()) {
+            $students = Classes::query()->latest('created_at')->get();
 
+            return response()->json(new ClassesCollection($students));
+        }
     }
 
     /**
