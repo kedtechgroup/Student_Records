@@ -19,13 +19,12 @@ class CreateStudentsTable extends Migration
             $table->string('email')->nullable();
             $table->string('gender');
             $table->date('dob');
-            $table->unsignedInteger('class_id');
+//            $table->unsignedInteger('class_id');
             $table->timestamps();
-
             $table->softDeletes();
-            $table->foreign('class_id')
-                ->references('id')
-                ->on('classes');
+//            $table->foreign('class_id')
+//                ->references('id')
+//                ->on('classes');
 
 //            $table->foreign('stream_id')
 //                ->references('id')

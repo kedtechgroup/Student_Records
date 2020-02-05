@@ -19,10 +19,10 @@ use Illuminate\Support\Str;
 
 $factory->define(\App\Student::class, function (Faker $faker) {
     return [
-        'name'     => $faker->name,
-        'email'    => $faker->unique()->safeEmail,
-        'gender'   => 'MALE',
-        'dob' => now()->toDateString(),
-        'class_id' => \App\Classes::query()->inRandomOrder()->first()->id,
+        'name'   => $faker->name,
+        'email'  => $faker->unique()->safeEmail,
+        'gender' => 'MALE',
+        'dob'    => now()->toDateString(),
+//        'class_id' => \App\Classes::query()->inRandomOrder()->first()->id,
     ];
 });

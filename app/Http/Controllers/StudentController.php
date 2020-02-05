@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\StudentCollection;
 use App\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
@@ -46,19 +47,27 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'     => 'required|string|max:255',
-            'email'    => 'nullable|email',
-            'dob'      => 'required|date_format:Y-m-d',
-            'class_id' => 'required|exists:classes,id'
+            'name'       => 'required|string|max:255',
+            'email'      => 'nullable|email',
+            'dob'        => 'required|date_format:Y-m-d',
+            'classes_id' => 'required|exists:classes,id'
         ]);
 
-        $student = Student::create([
-            'name'     => $request->input('name'),
-            'email'    => $request->input('email'),
-            'gender'   => $request->input('gender'),
-            'dob'      => $request->input('dob'),
-            'class_id' => $request->input('class_id'),
-        ]);
+        DB::transaction(function () use ($request){
+            $student = new Student([
+                'name'   => $request->input('name'),
+                'email'  => $request->input('email'),
+                'gender' => $request->input('gender'),
+                'dob'    => $request->input('dob'),
+            ]);
+
+            $student->save();
+
+            $student->classes()->attach($request->input('classes_id'), [
+                'start_date' => now()
+            ]);
+
+        });
 
         return response()->json([
             'message' => 'student was successfully created'
@@ -92,31 +101,38 @@ class StudentController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Student $student
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Student $student)
     {
         tap($student)->update([
-            'name'      => $request->input('name'),
-            'email'     => $request->input('email'),
-            'gender'    => $request->input('gender'),
-            'dob'       => $request->input('dob'),
-            'status'    => $request->input('status'),
-            'stream_id' => $request->input('stream_id'),
-            'class_id'  => $request->input('class_id'),
+            'name'   => $request->input('name'),
+            'email'  => $request->input('email'),
+            'gender' => $request->input('gender'),
+            'dob'    => $request->input('dob'),
         ])->save();
+
+//        $student->classes()->sync($request->input('classes_id'));
+
+        return response()->json([
+            'message' => 'student was successfully updated'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Student $student
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Student $student)
     {
         try {
             $student->delete();
+
+            return response()->json([
+                'message' => 'student was successfully deleted'
+            ]);
         } catch (\Exception $exception) {
 
         }

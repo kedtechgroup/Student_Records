@@ -392,12 +392,29 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('streams.index') }}" class="nav-link">
+                            <i class="icon-git-branch"></i>
+                            <span>Streams </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('classes.index') }}" class="nav-link">
+                            <i class="icon-office"></i>
+                            <span>Classes </span>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="{{ route('students.index') }}" class="nav-link">
                             <i class="icon-users"></i>
                             <span>Students </span>
                         </a>
                     </li>
+
+
 
                     <!-- /main -->
 

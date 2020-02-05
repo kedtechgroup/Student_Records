@@ -11,13 +11,20 @@ class Student extends Model
 
     protected $guarded = [];
 
+    protected $with = ['classes'];
+
     public function subjects()
     {
         return $this->hasMany(Subject::class);
     }
 
-    public function class()
+    public function classes()
     {
-        return $this->belongsTo(Classes::class);
+        return $this->belongsToMany(Classes::class,
+            'classes_student',
+            'student_id',
+            'class_id')
+            ->withPivot('start_date', 'end_date')
+            ->withTimestamps();
     }
 }

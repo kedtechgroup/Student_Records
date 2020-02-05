@@ -8,6 +8,11 @@ class Classes extends Model
 {
     protected $guarded = [];
 
+    protected $with = [
+        'stream',
+        'teacher'
+    ];
+
     public function results()
     {
         return $this->hasMany(Result::class);
@@ -25,6 +30,11 @@ class Classes extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->belongsToMany(Student::class, '');
+    }
+
+    public function stream()
+    {
+        return $this->belongsTo(Stream::class);
     }
 }

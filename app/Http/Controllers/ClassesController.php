@@ -11,6 +11,7 @@ class ClassesController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -20,6 +21,8 @@ class ClassesController extends Controller
 
             return response()->json(new ClassesCollection($students));
         }
+
+        return view('class');
     }
 
     /**
@@ -37,13 +40,25 @@ class ClassesController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        $class = Classes::create([
-            'name'             => $request->input('name'),
-            'ClassNameNumeric' => $request->input('ClassNameNumeric'),
-            'teacher_id'       => $request->input('teacher_id'),
+        $this->validate($request, [
+            'name'       => 'required|string|max:255',
+            'stream_id'  => 'required',
+            'teacher_id' => 'required'
+        ]);
+
+        Classes::create([
+            'name'       => $request->input('name'),
+//            'ClassNameNumeric' => $request->input('ClassNameNumeric'),
+            'teacher_id' => $request->input('teacher_id'),
+            'stream_id'  => $request->input('stream_id'),
+        ]);
+
+        return response()->json([
+            'message' => 'class was successfully created'
         ]);
     }
 
@@ -61,42 +76,55 @@ class ClassesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Classes $classes
+     * @return void
      */
-    public function edit($id)
+    public function edit(Classes $classes)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param Classes $classes
-     * @return void
+     * @param  $classes
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Classes $classes)
+    public function update(Request $request, $classes)
     {
+        $classes = Classes::find($classes);
+
+        $this->validate($request, [
+            'name'       => 'required|string|max:255',
+            'stream_id'  => 'required',
+            'teacher_id' => 'required'
+        ]);
+
         tap($classes)->update([
-            'name'             => $request->input('name'),
-            'ClassNameNumeric' => $request->input('ClassNameNumeric'),
-            'teacher_id'       => $request->input('teacher_id'),
+            'name'       => $request->input('name'),
+            'teacher_id' => $request->input('teacher_id'),
+            'stream_id'  => $request->input('stream_id'),
         ])->save();
+
+        return response()->json([
+            'message' => 'class was updated'
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Classes $classes)
+    public function destroy($id)
     {
-        try {
-            $classes->delete();
-        } catch (\Exception $exception) {
+        Classes::destroy($id);
 
-        }
+        return response()->json([
+            'message' => 'class was deleted'
+        ]);
     }
 }

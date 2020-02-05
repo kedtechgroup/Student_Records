@@ -19,6 +19,7 @@ Route::get('/home', function () {
     return view('layouts.master');
 });
 
+Route::resource('teachers', 'TeacherController');
 Route::resource('students', 'StudentController');
 Route::resource('streams', 'StreamController');
 Route::resource('classes', 'ClassesController');

@@ -2,9 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
 use Faker\Generator as Faker;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +18,9 @@ use Illuminate\Support\Str;
 $factory->define(\App\Classes::class, function (Faker $faker) {
     return [
         'name'             => $faker->name,
-        'ClassNameNumeric' => '1',
-        'section'          => 'section',
+//        'ClassNameNumeric' => '1',
+//        'section'          => 'section',
         'teacher_id'       => \App\Teacher::query()->inRandomOrder()->first()->id,
+        'stream_id'        => \App\Stream::query()->inRandomOrder()->first()->id,
     ];
 });
