@@ -2,6 +2,7 @@ import iziToast from "izitoast";
 
 let position = 'bottomRight';
 let displayMode = 'replace';
+let  timeout = 8000;
 
 const toast = {
     error: (message, title = 'Error') => {
@@ -13,6 +14,7 @@ const toast = {
             icon: 'icon-x',
             displayMode: displayMode,
             layout: 2,
+            timeout: timeout
         });
     },
 
@@ -25,6 +27,7 @@ const toast = {
             icon: 'icon-star-empty3',
             displayMode: displayMode,
             layout: 2,
+            timeout: timeout
         });
     },
 
@@ -102,6 +105,7 @@ const toast = {
             transitionIn: 'fadeIn',
             transitionOut: 'fadeOut',
             layout: 2,
+            timeout: timeout
         });
     },
 
@@ -115,6 +119,7 @@ const toast = {
             transitionIn: 'fadeIn',
             transitionOut: 'fadeOut',
             layout: 2,
+            timeout: timeout
         });
     },
 

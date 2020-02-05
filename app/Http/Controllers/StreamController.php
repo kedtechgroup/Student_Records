@@ -22,6 +22,8 @@ class StreamController extends Controller
             return response()->json(new StreamCollection($students));
         }
 
+        return view('stream');
+
     }
 
     /**
@@ -39,10 +41,21 @@ class StreamController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255'
+        ]);
+
+        Stream::create([
+            'name' => $request->input('name')
+        ]);
+
+        return response()->json([
+            'message' => 'Stream was created'
+        ]);
     }
 
     /**
@@ -76,7 +89,15 @@ class StreamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $stream = Stream::find($id);
+
+        tap($stream)->update([
+            'name' => $request->input('name')
+        ])->save();
+
+        return response()->json([
+            'message' => 'Stream was updated'
+        ]);
     }
 
     /**
@@ -87,6 +108,10 @@ class StreamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Stream::destroy($id);
+
+        return response()->json([
+            'message' => 'Stream was deleted'
+        ]);
     }
 }
