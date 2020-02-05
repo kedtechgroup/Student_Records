@@ -15,6 +15,7 @@ Vue.component('MyVuetable', require('./components/global/table/table').default);
 Vue.component('students', require('./components/student/index').default);
 Vue.component('classes', require('./components/classes/index').default);
 Vue.component('streams', require('./components/streams/index').default);
+Vue.component('teacher', require('./components/teachers/index').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -401,6 +401,13 @@
                     </li>
 
                     <li class="nav-item">
+                        <a href="{{ route('teachers.index') }}" class="nav-link">
+                            <i class="icon-user-tie"></i>
+                            <span>Teachers </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a href="{{ route('classes.index') }}" class="nav-link">
                             <i class="icon-office"></i>
                             <span>Classes </span>

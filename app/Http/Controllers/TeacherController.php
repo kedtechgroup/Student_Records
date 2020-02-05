@@ -21,17 +21,10 @@ class TeacherController extends Controller
             return response()->json(new TeacherCollection($teachers));
         }
 
+        return view('teacher');
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -43,19 +36,15 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'       => 'required|string|max:255',
-            'teacher_id' => 'required|numeric',
-            'stream_id'  => 'required|numeric'
+            'name' => 'required|string|max:255',
         ]);
 
         Teacher::create([
             'name' => $request->input('name'),
-//            'teacher_id' => $request->input('teacher_id'),
-//            'stream_id'  => $request->input('stream_id'),
         ]);
 
         return response()->json([
-            'message' => 'Class has been created'
+            'message' => 'Teacher was created'
         ]);
     }
 
@@ -90,7 +79,15 @@ class TeacherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $teacher = Teacher::find($id);
+
+        tap($teacher)->update([
+            'name' => $request->input('name')
+        ])->save();
+
+        return response()->json([
+            'message' => 'Teacher was updated'
+        ]);
     }
 
     /**
@@ -101,6 +98,10 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Teacher::destroy($id);
+
+        return response()->json([
+            'message' => 'Teacher was deleted'
+        ]);
     }
 }
