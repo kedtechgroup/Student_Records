@@ -2,9 +2,9 @@
     <div>
         <div class="row" v-if="showCreateForm">
             <div class="col-md-6 offset-md-2">
-                <form class="card" @submit.prevent="createStream">
+                <form class="card" @submit.prevent="createTerm">
                     <div class="card-header bg-transparent">
-                        <h6 class="card-title">Add Stream</h6>
+                        <h6 class="card-title">Add Term</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -47,9 +47,9 @@
 
         <div class="row" v-if="showUpdateForm">
             <div class="col-md-6 offset-md-2">
-                <form class="card" @submit.prevent="updateStream">
+                <form class="card" @submit.prevent="updateTerm">
                     <div class="card-header bg-transparent">
-                        <h6 class="card-title">Update Stream Details</h6>
+                        <h6 class="card-title">Update Term Details</h6>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -94,11 +94,11 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card mb-0">
                     <div class="card-header header-elements-sm-inline bg-transparent py-2">
-                        <h6 class="card-title">Streams</h6>
+                        <h6 class="card-title">Terms</h6>
                         <div class="header-elements">
                             <button class="btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400"
                                     @click.prevent="viewCreateForm">
-                                <i class="icon-plus3"></i> Stream
+                                <i class="icon-plus3"></i> Terms
                             </button>
 
 
@@ -106,7 +106,7 @@
 
                     </div>
 
-                    <my-vuetable api-url="/streams"
+                    <my-vuetable api-url="/terms"
                                  :fields="fields"
                                  ref="table"
                                  :append-params="moreParams">
@@ -123,7 +123,7 @@
                                         </a>
 
                                         <a href="#" class="dropdown-item"
-                                           @click.prevent="deleteStream(props.rowData, props.rowIndex)">
+                                           @click.prevent="deleteTerm(props.rowData, props.rowIndex)">
                                             <i class="icon-trash text-danger"></i> Delete
                                         </a>
 
@@ -191,14 +191,14 @@
                 this.showUpdateForm = true;
             },
 
-            createStream() {
-                this.form.post('/streams')
+            createTerm() {
+                this.form.post('/terms')
                     .then(response => toast.success(response.message))
                     .catch(error => toast.error(error.response.data.message))
             },
 
-            updateStream() {
-                this.form.put('/streams/' + this.form.id)
+            updateTerm() {
+                this.form.put('/terms/' + this.form.id)
                     .then(response => {
 
                         setTimeout(() => {
@@ -211,7 +211,7 @@
             },
 
             deleteTerm(rowData) {
-                window.httpClient.delete('/streams/' + rowData.id)
+                window.httpClient.delete('/terms/' + rowData.id)
                     .then(response => {
                         this.$refs.table.$refs.vuetable.reload();
                         toast.warning(response.data.message)

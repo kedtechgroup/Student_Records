@@ -17,6 +17,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="code">Code</label>
+                    <input type="text" class="form-control" v-model="form.code" id="code">
+
+                    <span class="form-text text-danger"
+                          v-if="form.errors.has('code')"
+                          v-text="form.errors.first('code')">
+                    </span>
+
+                </div>
+
+
+                <div class="form-group">
                     <label for="gender">Stream</label>
                     <v-select v-model="form.stream_id"
                               :options="streams"
@@ -31,20 +43,20 @@
 
                 </div>
 
-                <div class="form-group">
-                    <label for="gender">Teacher</label>
-                    <v-select v-model="form.teacher_id"
-                              :options="teachers"
-                              label="name"
-                              :reduce="option => option.id"
-                    />
+                <!--<div class="form-group">-->
+                    <!--<label for="gender">Teacher</label>-->
+                    <!--<v-select v-model="form.teacher_id"-->
+                              <!--:options="teachers"-->
+                              <!--label="name"-->
+                              <!--:reduce="option => option.id"-->
+                    <!--/>-->
 
-                    <span class="form-text text-danger"
-                          v-if="form.errors.has('teacher_id')"
-                          v-text="form.errors.first('teacher_id')">
-                    </span>
+                    <!--<span class="form-text text-danger"-->
+                          <!--v-if="form.errors.has('teacher_id')"-->
+                          <!--v-text="form.errors.first('teacher_id')">-->
+                    <!--</span>-->
 
-                </div>
+                <!--</div>-->
 
             </div>
 
@@ -88,7 +100,8 @@
                     id: '',
                     name: '',
                     stream_id: '',
-                    teacher_id: '',
+                    // teacher_id: '',
+                    code: ''
                 }),
 
                 // classes: [],
@@ -99,7 +112,7 @@
 
         created() {
             this.getStreams();
-            this.getTeachers();
+            // this.getTeachers();
 
             this.form.populate(this.classes);
             this.form.stream_id = this.classes.stream.id;

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Jobs\YearManagementJob;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;

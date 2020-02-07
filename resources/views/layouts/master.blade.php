@@ -31,13 +31,14 @@
     <div class="navbar-header navbar-dark d-none d-md-flex align-items-md-center">
         <div class="navbar-brand navbar-brand-md">
             <a href="index.html" class="d-inline-block">
-                <img src="{{ asset('global_assets/images/logo_light.png') }}" alt="">
+                <img src="{{ asset('global_assets/images/logo.jpeg') }}" alt="">
             </a>
         </div>
 
+
         <div class="navbar-brand navbar-brand-xs">
             <a href="index.html" class="d-inline-block">
-                <img src="{{ asset('global_assets/images/logo_icon_light.png') }}" alt="">
+                <img src="{{ asset('global_assets/images/logo.jpeg') }}" alt="" height="100px">
             </a>
         </div>
     </div>
@@ -48,7 +49,7 @@
     <div class="d-flex flex-1 d-md-none">
         <div class="navbar-brand mr-auto">
             <a href="index.html" class="d-inline-block">
-                <img src="{{ asset('global_assets/images/logo_dark.png') }}" alt="">
+                <img src="{{ asset('global_assets/images/logo.jpeg') }}" alt="">
             </a>
         </div>
 
@@ -418,6 +419,13 @@
                         <a href="{{ route('students.index') }}" class="nav-link">
                             <i class="icon-users"></i>
                             <span>Students </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('terms.index') }}" class="nav-link">
+                            <i class="icon-calendar2"></i>
+                            <span>Terms </span>
                         </a>
                     </li>
 

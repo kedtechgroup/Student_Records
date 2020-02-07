@@ -6,6 +6,7 @@
                     <div class="card-header bg-transparent">
                         <h6 class="card-title">Add Teacher</h6>
                     </div>
+
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -14,6 +15,39 @@
                             <span class="form-text text-danger"
                                   v-if="form.errors.has('name')"
                                   v-text="form.errors.first('name')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" v-model="form.email" id="email">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('email')"
+                                  v-text="form.errors.first('email')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Telephone</label>
+                            <input type="text" class="form-control" v-model="form.telephone" id="telephone">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('telephone')"
+                                  v-text="form.errors.first('telephone')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_no">ID No</label>
+                            <input type="text" class="form-control" v-model="form.id_no" id="id_no">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('id_no')"
+                                  v-text="form.errors.first('id_no')">
                             </span>
 
                         </div>
@@ -59,6 +93,39 @@
                             <span class="form-text text-danger"
                                   v-if="form.errors.has('name')"
                                   v-text="form.errors.first('name')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" v-model="form.email" id="email">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('email')"
+                                  v-text="form.errors.first('email')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telephone">Telephone</label>
+                            <input type="text" class="form-control" v-model="form.telephone" id="telephone">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('telephone')"
+                                  v-text="form.errors.first('telephone')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="id_no">ID No</label>
+                            <input type="text" class="form-control" v-model="form.id_no" id="id_no">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('id_no')"
+                                  v-text="form.errors.first('id_no')">
                             </span>
 
                         </div>
@@ -111,6 +178,24 @@
                                  ref="table"
                                  :append-params="moreParams">
 
+                        <template slot="name" slot-scope="props">
+                            <div class="media">
+                                <div class="mr-2">
+                                    <a href="">
+                                        <img src="/global_assets/images/placeholders/placeholder.jpg"
+                                             width="40" height="40" class="rounded-circle" alt="">
+                                    </a>
+                                </div>
+
+                                <div class="media-body align-self-center">
+                                    <span class="font-weight-semibold">{{ props.rowData.name}}</span>
+                                    <div class="text-muted font-size-sm">
+                                        Telephone: {{ props.rowData.telephone }}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
                         <template slot="actions" slot-scope="props">
                             <div class="list-icons custom-actions">
                                 <div class="list-icons-item dropdown">
@@ -152,7 +237,19 @@
                         dataClass: 'text-right',
                     },
                     {
-                        name: 'name',
+                        name: '__slot:name',
+                    },
+                    {
+                        name: 'email',
+                    },
+
+                    {
+                        name: 'id_no',
+                        title: 'ID NO'
+                    },
+                    {
+                        name: 'created_at',
+                        title: "Created"
                     },
                     {
                         name: '__slot:actions',
@@ -167,6 +264,9 @@
                 form: new Form({
                     id: '',
                     name: '',
+                    telephone: '',
+                    email: '',
+                    id_no: ''
                 }),
 
                 showCreateForm: false,

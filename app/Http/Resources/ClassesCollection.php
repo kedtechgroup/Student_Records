@@ -12,4 +12,13 @@ class ClassesCollection extends ResourceCollection
     {
         return $this->collection->paginate(50);
     }
+
+    public function with($request)
+    {
+        return [
+            'students' => [
+                'count' => 'value',
+            ],
+        ];
+    }
 }

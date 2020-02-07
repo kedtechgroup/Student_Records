@@ -47,14 +47,14 @@ class ClassesController extends Controller
         $this->validate($request, [
             'name'       => 'required|string|max:255',
             'stream_id'  => 'required',
-            'teacher_id' => 'required'
+            'code'       => 'required|string|max:255',
+//            'teacher_id' => 'required'
         ]);
 
         Classes::create([
             'name'       => $request->input('name'),
-//            'ClassNameNumeric' => $request->input('ClassNameNumeric'),
-            'teacher_id' => $request->input('teacher_id'),
             'stream_id'  => $request->input('stream_id'),
+            'code'       => $request->input('code'),
         ]);
 
         return response()->json([
@@ -99,13 +99,14 @@ class ClassesController extends Controller
         $this->validate($request, [
             'name'       => 'required|string|max:255',
             'stream_id'  => 'required',
-            'teacher_id' => 'required'
+//            'teacher_id' => 'required'
         ]);
 
         tap($classes)->update([
             'name'       => $request->input('name'),
-            'teacher_id' => $request->input('teacher_id'),
+//            'teacher_id' => $request->input('teacher_id'),
             'stream_id'  => $request->input('stream_id'),
+            'code'       => $request->input('code'),
         ])->save();
 
         return response()->json([

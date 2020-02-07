@@ -113,7 +113,7 @@ const toast = {
         return iziToast.warning({
             title: title,
             message: message,
-            displayMode: 'once',
+            displayMode: displayMode,
             id: 'question',
             position: 'bottomRight',
             transitionIn: 'fadeIn',

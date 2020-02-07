@@ -22,7 +22,10 @@ Route::get('/home', function () {
 Route::resource('teachers', 'TeacherController');
 Route::resource('students', 'StudentController');
 Route::resource('streams', 'StreamController');
+Route::resource('terms', 'TermController');
 Route::resource('classes', 'ClassesController');
+
+Route::get('/classes/{class}/students', 'ClassesStudentsController@index');
 
 
 Auth::routes();

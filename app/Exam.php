@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Stream extends Model
+class Exam extends Model
 {
-    protected $table= 'streams';
+    protected $table= 'exams';
 
     protected $guarded = [];
 

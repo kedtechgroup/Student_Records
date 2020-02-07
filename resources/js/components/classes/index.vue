@@ -1,5 +1,7 @@
 <template>
     <div>
+        <students :selected-class="selectedClass" v-if="showStudents" @close-students="hideForm"/>
+
         <div class="row" v-if="showCreateForm">
             <div class="col-md-6 offset-md-2">
                 <form class="card" @submit.prevent="createClass">
@@ -19,6 +21,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="code">Code</label>
+                            <input type="text" class="form-control" v-model="form.code" id="code">
+
+                            <span class="form-text text-danger"
+                                  v-if="form.errors.has('code')"
+                                  v-text="form.errors.first('code')">
+                            </span>
+
+                        </div>
+
+                        <div class="form-group">
                             <label for="gender">Stream</label>
                             <v-select v-model="form.stream_id"
                                       :options="streams"
@@ -33,20 +46,20 @@
 
                         </div>
 
-                        <div class="form-group">
-                            <label for="gender">Teacher</label>
-                            <v-select v-model="form.teacher_id"
-                                      :options="teachers"
-                                      label="name"
-                                      :reduce="option => option.id"
-                            />
+                        <!--<div class="form-group">-->
+                        <!--<label for="gender">Teacher</label>-->
+                        <!--<v-select v-model="form.teacher_id"-->
+                        <!--:options="teachers"-->
+                        <!--label="name"-->
+                        <!--:reduce="option => option.id"-->
+                        <!--/>-->
 
-                            <span class="form-text text-danger"
-                                  v-if="form.errors.has('teacher_id')"
-                                  v-text="form.errors.first('teacher_id')">
-                                </span>
+                        <!--<span class="form-text text-danger"-->
+                        <!--v-if="form.errors.has('teacher_id')"-->
+                        <!--v-text="form.errors.first('teacher_id')">-->
+                        <!--</span>-->
 
-                        </div>
+                        <!--</div>-->
 
                     </div>
 
@@ -79,16 +92,34 @@
             <update-form :classes="selectedClass" @close-form="hideForm"/>
         </div>
 
-        <div class="row" v-if="!showCreateForm && !showUpdateForm">
+        <div class="row" v-if="!showCreateForm && !showUpdateForm && !showStudents">
             <div class="col-lg-12 col-md-12">
                 <div class="card mb-0">
                     <div class="card-header header-elements-sm-inline bg-transparent py-2">
                         <h6 class="card-title">Classes</h6>
                         <div class="header-elements">
-                            <button class="btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400"
-                                    @click.prevent="viewCreateForm">
-                                <i class="icon-plus3"></i> Class
-                            </button>
+                            <div data-v-69ae6ed4="" class="list-icons ml-3">
+                                <div class="list-icons-item dropdown">
+                                    <a href="#"
+                                       data-toggle="dropdown"
+                                       aria-expanded="false"
+                                       class="list-icons-item dropdown-toggle"><i
+                                        class="icon-menu7"></i></a>
+                                    <div x-placement="bottom-start" class="dropdown-menu">
+                                        <a @click.prevent="viewCreateForm" href="#" class="dropdown-item"> <i
+                                            class="icon-plus3"></i> Add Class </a>
+                                        <a @click.prevent="viewCreateForm" href="#" class="dropdown-item"> <i
+                                            class="icon-user-plus"></i> Add Student </a>
+                                        <div class="dropdown-divider"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<button class="btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400"-->
+                            <!--@click.prevent="viewCreateForm">-->
+
+                            <!--</button>-->
 
 
                         </div>
@@ -107,6 +138,12 @@
                                        data-toggle="dropdown">
                                         <i class="icon-menu"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
+                                        <a @click.prevent="viewStudentsTable(props.rowData)" href="#"
+                                           class="dropdown-item"> <i
+                                            class="icon-eye4"></i> View Students </a>
+
+                                        <div class="dropdown-divider"></div>
+
                                         <a href="#" class="dropdown-item"
                                            @click.prevent="viewUpdateForm(props.rowData, props.rowIndex)">
                                             <i class="icon-pencil6"></i> Update
@@ -133,10 +170,12 @@
 
 <script>
     import UpdateForm from './updateForm'
+    import Students from './students'
 
     export default {
         components: {
-            UpdateForm
+            UpdateForm,
+            Students
         },
 
         data() {
@@ -152,6 +191,20 @@
                         name: 'name',
                     },
                     {
+                        name: 'code',
+                    },
+                    {
+                        name: 'stream.name',
+                        title: 'Stream'
+                    },
+                    {
+                        name: 'student_count',
+                        title: 'Students',
+                        titleClass: 'text-right',
+                        dataClass: 'text-right',
+                    },
+
+                    {
                         name: '__slot:actions',
                         title: '',
                         titleClass: 'text-center',
@@ -164,12 +217,14 @@
                 form: new Form({
                     id: '',
                     name: '',
+                    code: '',
                     stream_id: '',
                     teacher_id: '',
                 }),
 
                 showCreateForm: false,
                 showUpdateForm: false,
+                showStudents: false,
 
                 classes: [],
                 streams: [],
@@ -188,6 +243,7 @@
             hideForm() {
                 this.showCreateForm = false;
                 this.showUpdateForm = false;
+                this.showStudents = false;
                 this.form.reset();
             },
 
@@ -199,6 +255,11 @@
                 Object.assign(this.selectedClass, rowData);
 
                 this.showUpdateForm = true;
+            },
+
+            viewStudentsTable(rowData) {
+                Object.assign(this.selectedClass, rowData);
+                this.showStudents = true;
             },
 
             getStreams() {

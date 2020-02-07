@@ -1306,5 +1306,9 @@
     opacity: 0;
   }
 }
-
+.navbar-brand img {
+  /* height: 1rem; */
+  display: block;
+  height: 40px;
+}
 

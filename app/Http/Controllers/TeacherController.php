@@ -11,6 +11,7 @@ class TeacherController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -36,11 +37,17 @@ class TeacherController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'name'      => 'required|string|max:255',
+            'email'     => 'nullable|string|max:255',
+            'telephone' => 'nullable|string|max:255',
+            'id_no'     => 'nullable|string|max:255',
         ]);
 
         Teacher::create([
-            'name' => $request->input('name'),
+            'name'      => $request->input('name'),
+            'email'     => $request->input('email'),
+            'telephone' => $request->input('telephone'),
+            'id_no'     => $request->input('id_no'),
         ]);
 
         return response()->json([
@@ -76,13 +83,24 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name'      => 'required|string|max:255',
+            'email'     => 'nullable|string|max:255',
+            'telephone' => 'nullable|string|max:255',
+            'id_no'     => 'nullable|string|max:255',
+        ]);
+
         $teacher = Teacher::find($id);
 
         tap($teacher)->update([
-            'name' => $request->input('name')
+            'name'      => $request->input('name'),
+            'email'     => $request->input('email'),
+            'telephone' => $request->input('telephone'),
+            'id_no'     => $request->input('id_no'),
         ])->save();
 
         return response()->json([

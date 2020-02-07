@@ -53,18 +53,20 @@ class StudentController extends Controller
             'classes_id' => 'required|exists:classes,id'
         ]);
 
-        DB::transaction(function () use ($request){
+        DB::transaction(function () use ($request) {
             $student = new Student([
-                'name'   => $request->input('name'),
-                'email'  => $request->input('email'),
-                'gender' => $request->input('gender'),
-                'dob'    => $request->input('dob'),
+                'name'         => $request->input('name'),
+                'email'        => $request->input('email'),
+                'gender'       => $request->input('gender'),
+                'dob'          => $request->input('dob'),
+                'admission_no' => $request->input('admission_no'),
             ]);
+
 
             $student->save();
 
             $student->classes()->attach($request->input('classes_id'), [
-                'start_date' => now()
+                'year_id' => DB::table('years')->first()->id
             ]);
 
         });
@@ -106,10 +108,11 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         tap($student)->update([
-            'name'   => $request->input('name'),
-            'email'  => $request->input('email'),
-            'gender' => $request->input('gender'),
-            'dob'    => $request->input('dob'),
+            'name'         => $request->input('name'),
+            'email'        => $request->input('email'),
+            'gender'       => $request->input('gender'),
+            'dob'          => $request->input('dob'),
+            'admission_no' => $request->input('admission_no'),
         ])->save();
 
 //        $student->classes()->sync($request->input('classes_id'));

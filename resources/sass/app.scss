@@ -1,2 +1,8 @@
 @import "~vue-select/dist/vue-select.css";
 @import "~izitoast/dist/css/iziToast.css";
+
+.navbar-brand img {
+    /* height: 1rem; */
+    display: block;
+    height: 40px;
+}

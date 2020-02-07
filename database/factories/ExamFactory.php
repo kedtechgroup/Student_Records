@@ -15,12 +15,8 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(\App\Classes::class, function (Faker $faker) {
+$factory->define(\App\Exam::class, function (Faker $faker) {
     return [
-        'name'             => $faker->name,
-//        'ClassNameNumeric' => '1',
-//        'section'          => 'section',
-//        'teacher_id'       => \App\Teacher::query()->inRandomOrder()->first()->id,
-        'stream_id'        => \App\Stream::query()->inRandomOrder()->first()->id,
+        'name' => $faker->name,
     ];
 });

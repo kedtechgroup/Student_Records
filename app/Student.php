@@ -11,7 +11,7 @@ class Student extends Model
 
     protected $guarded = [];
 
-    protected $with = ['classes'];
+//    protected $with = ['classes'];
 
     public function subjects()
     {
@@ -21,10 +21,11 @@ class Student extends Model
     public function classes()
     {
         return $this->belongsToMany(Classes::class,
-            'classes_student',
+            'class_student',
             'student_id',
-            'class_id')
-            ->withPivot('start_date', 'end_date')
+            'class_id')// model ur joining to
+        ->withPivot('year_id')
+            ->using(ClassStudent::class)
             ->withTimestamps();
     }
 }

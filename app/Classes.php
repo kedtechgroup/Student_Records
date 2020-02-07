@@ -6,11 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Classes extends Model
 {
+    protected $table = 'classes';
+
     protected $guarded = [];
 
     protected $with = [
         'stream',
-        'teacher'
+        'teacher',
+        'students'
     ];
 
     public function results()
@@ -30,7 +33,17 @@ class Classes extends Model
 
     public function students()
     {
-        return $this->belongsToMany(Student::class, '');
+        return $this->belongsToMany(Student::class,
+            'class_student',
+            'class_id',
+            'student_id')
+            ->withPivot('year_id')
+            ->withTimestamps();
+    }
+
+    public function studentCount()
+    {
+        return $this->students()->count();
     }
 
     public function stream()

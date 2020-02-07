@@ -225,9 +225,9 @@
                     <div class="card-header header-elements-sm-inline bg-transparent py-2">
                         <h6 class="card-title">Students</h6>
                         <div class="header-elements">
-                            <button class="btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400"
-                                    @click.prevent="viewCreateForm">
-                                <i class="icon-user-plus"></i> Student
+                            <button class="btn btn-sm btn-outline btn-danger text-danger-400 border-danger-400"
+                                    @click.prevent="$emit('close-students')">
+                                <i class="icon-cross"></i> Close
                             </button>
 
 
@@ -235,7 +235,7 @@
 
                     </div>
 
-                    <my-vuetable api-url="/students"
+                    <my-vuetable :api-url="url"
                                  :fields="fields"
                                  ref="table"
                                  :append-params="moreParams">
@@ -250,9 +250,9 @@
                                 </div>
 
                                 <div class="media-body align-self-center">
-                                    <span class="font-weight-semibold">{{ props.rowData.name}}</span>
+                                    <span class="font-weight-semibold">{{ props.rowData.student.name}}</span>
                                     <div class="text-muted font-size-sm">
-                                        Admission No: {{ props.rowData.admission_no }}
+                                        Admission No: {{ props.rowData.student.admission_no }}
                                     </div>
                                 </div>
                             </div>
@@ -288,9 +288,17 @@
 
 <script>
     export default {
+        props: {
+            selectedClass: {
+                type: Object,
+                required: true
+            }
+        },
 
         data() {
             return {
+                url: '/classes/' + this.selectedClass.id + '/students',
+
                 fields: [
                     {
                         name: '__sequence',
@@ -302,21 +310,18 @@
                         name: '__slot:name',
                     },
                     {
-                        name: 'gender',
-                    },
-
-                    {
-                        name: 'email'
+                        name: 'student.gender',
+                        title: 'Gender'
                     },
                     {
-                        name: 'dob',
+                        name: 'student.email',
+                        title: 'Email'
+                    },
+                    {
+                        name: 'student.dob',
                         title: 'Date of Birth'
                     },
 
-                    {
-                        name: 'dob',
-                        title: 'Class'
-                    },
                     {
                         name: '__slot:actions',
                         title: '',
@@ -366,7 +371,9 @@
 
             viewUpdateForm(rowData) {
                 this.form.populate(rowData);
-
+                this.form.classes_id = rowData.classes.map(function (classes) {
+                    return classes.name
+                });
                 this.showUpdateForm = true;
             },
 
@@ -379,6 +386,7 @@
             onDateChange(date, dateStr) {
                 this.form.dob = dateStr;
             },
+
             createStudent() {
                 this.form.post('/students')
                     .then(response => toast.success(response.message))
