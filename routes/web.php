@@ -15,15 +15,18 @@ Route::get('/', function () {
 
 });
 
-Route::get('/home', function () {
-    return view('layouts.master');
-});
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('teachers', 'TeacherController');
 Route::resource('students', 'StudentController');
 Route::resource('streams', 'StreamController');
 Route::resource('terms', 'TermController');
+Route::resource('subjects', 'SubjectController');
 Route::resource('classes', 'ClassesController');
+Route::resource('exams', 'ExamController');
+Route::resource('results', 'ResultsController');
+
+Route::get('/years', 'HomeController@years');
 
 Route::get('/classes/{class}/students', 'ClassesStudentsController@index');
 

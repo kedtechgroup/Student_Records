@@ -1,5 +1,12 @@
 <template>
     <div>
+
+        <ResultsViewerForm v-if="showResultsViewer"/>
+
+        <div class="row" v-if="showResultsCreateForm">
+            <results-create-form :selected-class="selectedStudentClass" @close-form="hideForm"/>
+        </div>
+
         <div class="row" v-if="showCreateForm">
             <div class="col-md-6 offset-md-2">
                 <form class="card" @submit.prevent="createStudent">
@@ -67,20 +74,20 @@
 
                         </div>
 
-                        <div class="form-group">
-                            <label for="gender">Class</label>
-                            <v-select v-model="form.classes_id"
-                                      :options="classes"
-                                      label="name"
-                                      :reduce="option => option.id"
-                            />
+                        <!--<div class="form-group">-->
+                        <!--<label for="gender">Class</label>-->
+                        <!--<v-select v-model="form.classes_id"-->
+                        <!--:options="classes"-->
+                        <!--label="name"-->
+                        <!--:reduce="option => option.id"-->
+                        <!--/>-->
 
-                            <span class="form-text text-danger"
-                                  v-if="form.errors.has('gender')"
-                                  v-text="form.errors.first('gender')">
-                            </span>
+                        <!--<span class="form-text text-danger"-->
+                        <!--v-if="form.errors.has('gender')"-->
+                        <!--v-text="form.errors.first('gender')">-->
+                        <!--</span>-->
 
-                        </div>
+                        <!--</div>-->
 
                     </div>
 
@@ -219,16 +226,35 @@
             </div>
         </div>
 
-        <div class="row" v-if="!showCreateForm && !showUpdateForm">
+        <div class="row" v-if="!showCreateForm && !showUpdateForm && !showResultsCreateForm && !showResultsViewer">
             <div class="col-lg-12 col-md-12">
                 <div class="card mb-0">
                     <div class="card-header header-elements-sm-inline bg-transparent py-2">
                         <h6 class="card-title">Students</h6>
                         <div class="header-elements">
-                            <button class="btn btn-sm btn-outline btn-danger text-danger-400 border-danger-400"
-                                    @click.prevent="$emit('close-students')">
-                                <i class="icon-cross"></i> Close
-                            </button>
+                            <div class="list-icons ml-3">
+                                <div class="list-icons-item dropdown">
+                                    <a href="#"
+                                       data-toggle="dropdown"
+                                       aria-expanded="false"
+                                       class="list-icons-item dropdown-toggle"><i
+                                        class="icon-menu7"></i></a>
+                                    <div x-placement="bottom-start" class="dropdown-menu">
+                                        <a @click.prevent="viewCreateForm" href="#" class="dropdown-item"> <i
+                                            class="icon-user-plus"></i> Add Student </a>
+                                        <div class="dropdown-divider"></div>
+
+                                        <a @click.prevent="$emit('close-students')" href="#" class="dropdown-item"> <i
+                                            class="icon-cross3"></i> Close </a>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<button class="btn btn-sm btn-outline bg-indigo-400 text-indigo-400 border-indigo-400"-->
+                            <!--@click.prevent="viewCreateForm">-->
+
+                            <!--</button>-->
 
 
                         </div>
@@ -265,9 +291,23 @@
                                         <i class="icon-menu"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item"
+                                           @click.prevent="viewShowResultsCreateForm(props.rowData, props.rowIndex)">
+                                            <i class="icon-plus3"></i> Enter Result
+                                        </a>
+
+                                        <a href="#" class="dropdown-item"
                                            @click.prevent="viewUpdateForm(props.rowData, props.rowIndex)">
                                             <i class="icon-pencil6"></i> Update
                                         </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        <a href="#" class="dropdown-item"
+                                           @click.prevent="viewResults(props.rowData, props.rowIndex)">
+                                            <i class="icon-eye4"></i> View Results
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
 
                                         <a href="#" class="dropdown-item"
                                            @click.prevent="deleteStudent(props.rowData, props.rowIndex)">
@@ -287,7 +327,15 @@
 </template>
 
 <script>
+    import ResultsCreateForm from './resultsCreateForm'
+    import ResultsViewerForm from './resultsViewerForm'
+
     export default {
+        components: {
+            ResultsCreateForm,
+            ResultsViewerForm
+        },
+
         props: {
             selectedClass: {
                 type: Object,
@@ -343,14 +391,20 @@
                 }),
 
                 showCreateForm: false,
+                showResultsCreateForm: false,
                 showUpdateForm: false,
+                showResultsViewer: false,
 
                 classes: [],
+
+                subjects: [],
 
                 gender: [
                     'MALE',
                     'FEMALE'
-                ]
+                ],
+
+                selectedStudentClass: {}
             }
         },
 
@@ -362,19 +416,30 @@
             hideForm() {
                 this.showCreateForm = false;
                 this.showUpdateForm = false;
+                this.showResultsCreateForm = false;
                 this.form.reset();
+                this.resultForm.reset();
             },
 
             viewCreateForm() {
+                this.form.classes_id.push(this.selectedClass.id);
                 this.showCreateForm = true;
             },
 
+            viewShowResultsCreateForm(rowData) {
+                Object.assign(this.selectedStudentClass, rowData);
+                this.showResultsCreateForm = true;
+            },
+
             viewUpdateForm(rowData) {
-                this.form.populate(rowData);
-                this.form.classes_id = rowData.classes.map(function (classes) {
-                    return classes.name
-                });
+
+                this.form.populate(rowData.student);
+
                 this.showUpdateForm = true;
+            },
+
+            viewResults(rowData) {
+                this.showResultsViewer = true;
             },
 
             getClasses() {
@@ -393,6 +458,12 @@
                     .catch(error => toast.error(error.response.data.message))
             },
 
+            createResult() {
+                this.resultForm.post('/results')
+                    .then(response => toast.success(response.message))
+                    .catch(error => toast.error(error.response.data.message))
+            },
+
             updateStudent() {
                 this.form.put('/students/' + this.form.id)
                     .then(response => toast.success(response.message))
@@ -406,7 +477,8 @@
                         toast.success(response.data.message)
                     })
                     .catch(error => toast.error(error.response.data.message))
-            }
+            },
+
         }
     }
 </script>

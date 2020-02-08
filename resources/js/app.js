@@ -16,7 +16,9 @@ Vue.component('students', require('./components/student/index').default);
 Vue.component('classes', require('./components/classes/index').default);
 Vue.component('streams', require('./components/streams/index').default);
 Vue.component('terms', require('./components/term/index').default);
+Vue.component('subjects', require('./components/subjects/index').default);
 Vue.component('teacher', require('./components/teachers/index').default);
+Vue.component('home', require('./components/index').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

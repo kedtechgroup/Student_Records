@@ -8,8 +8,4 @@ class Subject extends Model
 {
     protected $guarded = [];
 
-    public function class()
-    {
-        return $this->belongsTo(Classes::class);
-    }
 }

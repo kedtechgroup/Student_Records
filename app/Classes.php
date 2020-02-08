@@ -38,6 +38,7 @@ class Classes extends Model
             'class_id',
             'student_id')
             ->withPivot('year_id')
+            ->using(ClassStudent::class)
             ->withTimestamps();
     }
 

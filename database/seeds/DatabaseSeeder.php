@@ -23,17 +23,19 @@ class DatabaseSeeder extends Seeder
         DB::table('students')->truncate();
         DB::table('years')->truncate();
         DB::table('terms')->truncate();
+        DB::table('subjects')->truncate();
         DB::table('exams')->truncate();
 
         Schema::enableForeignKeyConstraints();
 
         DB::table('years')->insert(['name' => now()->yearIso]);
 
+        factory(\App\Subject::class, 2)->create();
         factory(\App\Stream::class, 2)->create();
         factory(\App\User::class)->create();
         factory(\App\Teacher::class, 10)->create();
         factory(\App\Classes::class, 2)->create();
-        factory(\App\Student::class, 10)->create();
+        factory(\App\Student::class, 30)->create();
         factory(\App\Term::class, 10)->create();
         factory(\App\Exam::class, 10)->create();
 

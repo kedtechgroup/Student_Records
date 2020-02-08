@@ -210,7 +210,7 @@
                     .catch(error => toast.error(error.response.data.message))
             },
 
-            deleteTerm(rowData) {
+            deleteStream(rowData) {
                 window.httpClient.delete('/streams/' + rowData.id)
                     .then(response => {
                         this.$refs.table.$refs.vuetable.reload();

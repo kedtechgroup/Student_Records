@@ -388,7 +388,7 @@
                         <div class="text-uppercase font-size-xs line-height-xs">Main</div>
                         <i class="icon-menu" title="Main"></i></li>
                     <li class="nav-item">
-                        <a href="index.html" class="nav-link active">
+                        <a href="{{ route('home') }}" class="nav-link active">
                             <i class="icon-home4"></i>
                             <span>Dashboard</span>
                         </a>
@@ -405,6 +405,13 @@
                         <a href="{{ route('teachers.index') }}" class="nav-link">
                             <i class="icon-user-tie"></i>
                             <span>Teachers </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('subjects.index') }}" class="nav-link">
+                            <i class="icon-book3"></i>
+                            <span>Subjects </span>
                         </a>
                     </li>
 

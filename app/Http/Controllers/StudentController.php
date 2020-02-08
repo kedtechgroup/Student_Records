@@ -47,10 +47,11 @@ class StudentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name'       => 'required|string|max:255',
-            'email'      => 'nullable|email',
-            'dob'        => 'required|date_format:Y-m-d',
-            'classes_id' => 'required|exists:classes,id'
+            'name'         => 'required|string|max:255',
+            'email'        => 'nullable|email',
+            'dob'          => 'required|date_format:Y-m-d',
+            'classes_id'   => 'required|exists:classes,id',
+            'admission_no' => 'required|unique:students'
         ]);
 
         DB::transaction(function () use ($request) {

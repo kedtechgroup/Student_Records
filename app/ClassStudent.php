@@ -10,6 +10,13 @@ class ClassStudent extends Pivot
 
     protected $guarded = [];
 
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = true;
+
     public function student()
     {
         return $this->belongsTo(Student::class);
